@@ -3,17 +3,8 @@
 package addtwonumbers
 
 import org.junit.jupiter.api.Test
-
-
-data class ListNode(var `val`: Int) {
-    var next: ListNode? = null
-
-    override fun toString(): String {
-        return "$`val` -> $next"
-    }
-}
-
-val ListNode.value: Int get() = this.`val`
+import utils.ListNode
+import utils.value
 
 class Solution {
     fun addTwoNumbers(l1: ListNode?, l2: ListNode?): ListNode? {
