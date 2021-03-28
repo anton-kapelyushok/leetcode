@@ -1,7 +1,7 @@
 package sudokusolver
 
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 
 typealias Sudoku = Array<IntArray>
 
@@ -109,7 +109,7 @@ class SolutionTest {
                 charArrayOf('2', '8', '7', '4', '1', '9', '6', '3', '5'),
                 charArrayOf('3', '4', '5', '2', '8', '6', '1', '7', '9'))
 
-        Assertions.assertEquals(expected.asString(), actual.asString())
+        assertEquals(expected.asString(), actual.asString())
     }
 
     @Test
@@ -140,7 +140,7 @@ class SolutionTest {
                 charArrayOf('4', '7', '8', '6', '5', '1', '2', '3', '9'))
 
 
-        Assertions.assertEquals(expected.asString(), actual.asString())
+        assertEquals(expected.asString(), actual.asString())
     }
 
     private fun Array<CharArray>.asString(): String =

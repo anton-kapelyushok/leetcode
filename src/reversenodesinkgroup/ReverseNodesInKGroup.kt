@@ -1,6 +1,6 @@
 package reversenodesinkgroup
 
-import org.junit.jupiter.api.Assertions
+import kotlin.test.assertEquals
 import org.junit.jupiter.api.Test
 import utils.ListNode
 import utils.nodeListOf
@@ -89,11 +89,11 @@ class SolutionTest {
 
     @Test
     fun test1() {
-        Assertions.assertEquals(nodeListOf(2, 1, 4, 3, 5), s.reverseKGroup(nodeListOf(1, 2, 3, 4, 5), 2))
+        assertEquals(nodeListOf(2, 1, 4, 3, 5), s.reverseKGroup(nodeListOf(1, 2, 3, 4, 5), 2))
     }
 
     @Test
     fun test2() {
-        Assertions.assertEquals(nodeListOf(3, 2, 1, 4, 5), s.reverseKGroup(nodeListOf(1, 2, 3, 4, 5), 3))
+        assertEquals(nodeListOf(3, 2, 1, 4, 5), s.reverseKGroup(nodeListOf(1, 2, 3, 4, 5), 3))
     }
 }

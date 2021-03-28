@@ -1,6 +1,6 @@
 package substringwithconcatenationofallwords
 
-import org.junit.jupiter.api.Assertions
+import kotlin.test.assertEquals
 import org.junit.jupiter.api.Test
 
 class Solution {
@@ -68,16 +68,16 @@ class SolutionTest {
 
     @Test
     fun test1() {
-        Assertions.assertEquals(listOf(0, 9), s.findSubstring("barfoothefoobarman", arrayOf("foo", "bar")))
+        assertEquals(listOf(0, 9), s.findSubstring("barfoothefoobarman", arrayOf("foo", "bar")))
     }
 
     @Test
     fun test2() {
-        Assertions.assertEquals(listOf<Int>(), s.findSubstring("wordgoodgoodgoodbestword", arrayOf("word", "good", "best", "word")))
+        assertEquals(listOf<Int>(), s.findSubstring("wordgoodgoodgoodbestword", arrayOf("word", "good", "best", "word")))
     }
 
     @Test
     fun test3() {
-        Assertions.assertEquals(listOf(6, 9, 12), s.findSubstring("barfoofoobarthefoobarman", arrayOf("bar", "foo", "the")))
+        assertEquals(listOf(6, 9, 12), s.findSubstring("barfoofoobarthefoobarman", arrayOf("bar", "foo", "the")))
     }
 }

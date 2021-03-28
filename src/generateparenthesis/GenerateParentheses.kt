@@ -1,6 +1,6 @@
 package generateparenthesis
 
-import org.junit.jupiter.api.Assertions.assertEquals
+import kotlin.test.assertEquals
 import org.junit.jupiter.api.Test
 
 class Solution {

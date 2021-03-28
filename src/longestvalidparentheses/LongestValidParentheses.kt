@@ -1,6 +1,6 @@
 package longestvalidparentheses
 
-import org.junit.jupiter.api.Assertions
+import kotlin.test.assertEquals
 import org.junit.jupiter.api.Test
 
 class Solution {
@@ -33,31 +33,31 @@ class SolutionTest {
 
     @Test
     fun test0() {
-        Assertions.assertEquals(4, s.longestValidParentheses("()()"))
+        assertEquals(4, s.longestValidParentheses("()()"))
     }
 
     @Test
     fun test1() {
-        Assertions.assertEquals(2, s.longestValidParentheses("(()"))
+        assertEquals(2, s.longestValidParentheses("(()"))
     }
 
     @Test
     fun test2() {
-        Assertions.assertEquals(4, s.longestValidParentheses(")()())"))
+        assertEquals(4, s.longestValidParentheses(")()())"))
     }
 
     @Test
     fun test3() {
-        Assertions.assertEquals(0, s.longestValidParentheses(""))
+        assertEquals(0, s.longestValidParentheses(""))
     }
 
     @Test
     fun test4() {
-        Assertions.assertEquals(2, s.longestValidParentheses("()(()"))
+        assertEquals(2, s.longestValidParentheses("()(()"))
     }
 
     @Test
     fun test5() {
-        Assertions.assertEquals(6, s.longestValidParentheses("()(())"))
+        assertEquals(6, s.longestValidParentheses("()(())"))
     }
 }

@@ -1,6 +1,6 @@
 package mergeksortedlists
 
-import org.junit.jupiter.api.Assertions.assertEquals
+import kotlin.test.assertEquals
 import org.junit.jupiter.api.Test
 import utils.ListNode
 import utils.nodeListOf
