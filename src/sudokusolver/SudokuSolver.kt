@@ -18,7 +18,7 @@ class Solution {
 
     fun solve(sudoku: Sudoku): Sudoku? {
 
-        loop@ while (true) {
+        while (true) {
             val p = sudoku.map { row -> row.map { cell -> (0..9).map { true }.toTypedArray() }.toTypedArray() }.toTypedArray()
             for (rowI in sudoku.indices) {
                 for (colI in sudoku[rowI].indices) {
@@ -39,42 +39,21 @@ class Solution {
                 }
             }
 
-            var updated = false
             for (rowI in sudoku.indices) {
                 for (colI in sudoku[rowI].indices) {
-                    val value = sudoku[rowI][colI]
-                    val possibleValues = (1..9).filter { p[rowI][colI][it] }
-                    if (possibleValues.isEmpty()) {
+                    if (sudoku[rowI][colI] == 0) {
+                        val possibleValues = (1..9).filter { p[rowI][colI][it] }
+                        for (v in possibleValues) {
+                            sudoku[rowI][colI] = v
+                            val solved = solve(sudoku)
+                            if (solved != null) return solved
+                            sudoku[rowI][colI] = 0
+                        }
                         return null
                     }
-
-                    if (possibleValues.size == 1) {
-                        if (value != possibleValues[0]) {
-                            sudoku[rowI][colI] = possibleValues[0]
-                            updated = true
-                        }
-                    }
                 }
             }
-
-            if (!updated) {
-                for (rowI in sudoku.indices) {
-                    for (colI in sudoku[rowI].indices) {
-                        if (sudoku[rowI][colI] == 0) {
-                            val possibleValues = (1..9).filter { p[rowI][colI][it] }
-                            for (v in possibleValues) {
-                                val guess = sudoku.map { row -> intArrayOf(*row) }.toTypedArray()
-                                guess[rowI][colI] = v
-                                println("Guess $rowI, $colI -> $v")
-                                val solved = solve(guess)
-                                if (solved != null) return solved
-                            }
-                            return null
-                        }
-                    }
-                }
-                return sudoku
-            }
+            return sudoku
         }
     }
 }
