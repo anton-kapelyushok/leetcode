@@ -6,6 +6,15 @@ data class ListNode(var `val`: Int) {
     override fun toString(): String {
         return "$`val` -> $next"
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (other == null) return false
+        return this.toString() == other.toString()
+    }
+
+    override fun hashCode(): Int {
+        return this.toString().hashCode()
+    }
 }
 
 val ListNode.value: Int get() = this.`val`

@@ -88,11 +88,6 @@ class SolutionTest {
     private val s = Solution()
 
     @Test
-    fun kLargerThanSize() {
-        Assertions.assertEquals(nodeListOf(1, 2, 3), s.reverseKGroup(nodeListOf(1, 2, 3), 4))
-    }
-
-    @Test
     fun test1() {
         Assertions.assertEquals(nodeListOf(2, 1, 4, 3, 5), s.reverseKGroup(nodeListOf(1, 2, 3, 4, 5), 2))
     }
