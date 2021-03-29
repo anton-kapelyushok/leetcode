@@ -1,0 +1,4 @@
+package wildcardmatching
+
+class WildcardMatching {
+}
