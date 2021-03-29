@@ -42,6 +42,50 @@ class Solution {
     }
 }
 
+class DpSolution1 {
+    fun wiggleMaxLength(nums: IntArray): Int {
+        val upDp = Array(nums.size) { 0 }
+        val downDp = Array(nums.size) { 0 }
+
+        upDp[0] = 1
+        downDp[0] = 1
+
+        for (i in nums.indices) {
+            for (j in 0 until i) {
+                if (nums[i] > nums[j]) {
+                    upDp[i] = downDp[j] + 1
+                } else if (nums[i] < nums[j]) {
+                    downDp[i] = upDp[j] + 1
+                }
+            }
+        }
+
+        return (upDp + downDp).max()!!
+    }
+}
+
+class DpSolution2 {
+    fun wiggleMaxLength(nums: IntArray): Int {
+        val upDp = Array(nums.size) { 0 }
+        val downDp = Array(nums.size) { 0 }
+
+        upDp[0] = 1
+        downDp[0] = 1
+
+        for (i in (1 until nums.size)) {
+            upDp[i] = upDp[i - 1]
+            downDp[i] = downDp[i - 1]
+            if (nums[i] > nums[i - 1]) {
+                upDp[i] = downDp[i - 1] + 1
+            } else if (nums[i] < nums[i - 1]) {
+                downDp[i] = upDp[i - 1] + 1
+            }
+        }
+
+        return (upDp + downDp).max()!!
+    }
+}
+
 class SolutionTest {
     private val s = Solution()
 
@@ -58,6 +102,11 @@ class SolutionTest {
     @Test
     fun test2() {
         assertEquals(7, s.wiggleMaxLength(intArrayOf(1, 17, 5, 10, 13, 15, 10, 5, 16, 8)))
+    }
+
+    @Test
+    fun test2_reversed() {
+        assertEquals(7, s.wiggleMaxLength(intArrayOf(1, 17, 5, 10, 13, 15, 10, 5, 16, 8).reversedArray()))
     }
 
     @Test
