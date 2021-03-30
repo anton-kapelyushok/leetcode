@@ -21,6 +21,19 @@ class Solution {
     }
 }
 
+class ReferenceSolution {
+    fun findPeakElement(nums: IntArray): Int {
+        var l = 0
+        var r = nums.size - 1
+        while (l < r) {
+            val m = (r + l) / 2
+            if (nums[m] < nums[m + 1]) l = m + 1
+            else r = m
+        }
+        return l
+    }
+}
+
 class SolutionTest {
     private val s = Solution()
 
