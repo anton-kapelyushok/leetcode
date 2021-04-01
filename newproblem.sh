@@ -21,5 +21,4 @@ class SolutionTest {
     }
 
 }" > "src/$pkg/$1.kt"
-git add -A
 idea "src/$pkg/$1.kt"
