@@ -30,35 +30,4 @@ test {
     useJUnitPlatform()
 }
 
-task newProblem {
-    doLast {
-        def problemName = project.getProperty("problem")
-        def pkg = problemName.replace(" ", "").toLowerCase()
-        def dir = "src/$pkg"
-        mkdir dir
-        new File(dir, "${problemName}.kt").text = """
-package $pkg;
-
-import kotlin.test.assertEquals
-import org.junit.jupiter.api.Test
-
-class Solution {
-
-}
-
-class SolutionTest {
-
-    private val s = Solution()
-    
-    @Test
-    fun test1() {
-        assertEquals(0, s.solve())
-    } 
-
-}
-"""
-
-    }
-}
-
 
