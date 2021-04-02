@@ -1,10 +1,79 @@
 package regularexpressionmatching
 
-import kotlin.test.assertEquals
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 
 
 class Solution {
+    fun isMatch(s: String, p: String): Boolean {
+        val tokens = tokenize(p)
+        println(tokens)
+
+        val dp = Array(s.length + 1) { Array(tokens.size + 1) { false } }
+
+
+        for (i in s.length downTo 0) {
+            for (j in tokens.size downTo 0) {
+                if (i == s.length) {
+                    dp[i][j] = (j until tokens.size).all { tokens[it].m }
+                } else if (j == tokens.size) {
+                    dp[i][j] = false
+                } else {
+                    val token = tokens[j]
+                    if (!token.m) {
+                        if (token.c == null) {
+                            dp[i][j] = dp[i + 1][j + 1]
+                        } else {
+                            dp[i][j] = s[i] == token.c && dp[i + 1][j + 1]
+                        }
+                    } else {
+                        if (token.c == null) {
+                            dp[i][j] = (i..s.length).any { k -> dp[k][j + 1] }
+                        } else {
+                            dp[i][j] = (i..s.length).any { k ->
+                                (i until k).all { c -> s[c] == token.c }
+                                        && dp[k][j + 1]
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return dp[0][0]
+    }
+
+    fun tokenize(p: String): List<Token> {
+        val result = mutableListOf<Token>()
+        var i = p.length - 1
+        while (i >= 0) {
+            var c: Char? = null
+            var m = false
+
+            if (p[i] == '*') {
+                m = true
+                i--
+            }
+
+            if (p[i] != '.') {
+                c = p[i]
+            }
+
+            i--
+            result.add(0, Token(c, m))
+        }
+        return result
+    }
+
+    // a*, .*, a, .
+    data class Token(val c: Char?, val m: Boolean) {
+        override fun toString(): String {
+            return "${c ?: "."}${if (m) "*" else ""}"
+        }
+    }
+}
+
+class DpUpBottomSolution {
     fun isMatch(s: String, p: String): Boolean {
         val tokens = tokenize(p)
         println(tokens)
@@ -102,5 +171,10 @@ class SolutionTest {
     @Test
     fun test5() {
         assertEquals(false, s.isMatch("mississippi", "mis*is*p*."))
+    }
+
+    @Test
+    fun test6() {
+        assertEquals(true, s.isMatch("mississippi", "mis*is*ip*."))
     }
 }
