@@ -3,7 +3,6 @@ package regularexpressionmatching
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-
 class Solution {
     fun isMatch(s: String, p: String): Boolean {
         val tokens = tokenize(p)
@@ -27,12 +26,12 @@ class Solution {
                             dp[i][j] = s[i] == token.c && dp[i + 1][j + 1]
                         }
                     } else {
-                        if (token.c == null) {
-                            dp[i][j] = (i..s.length).any { k -> dp[k][j + 1] }
-                        } else {
-                            dp[i][j] = (i..s.length).any { k ->
-                                (i until k).all { c -> s[c] == token.c }
-                                        && dp[k][j + 1]
+                        dp[i][j] = dp[i][j + 1] // try not to match on current symbol
+                        if (!dp[i][j]) { // if we still have to match try to consume current symbol
+                            if (token.c == null) {
+                                dp[i][j] = dp[i + 1][j + 1] || dp[i + 1][j]
+                            } else {
+                                dp[i][j] = s[i] == token.c && (dp[i + 1][j + 1] || dp[i + 1][j])
                             }
                         }
                     }
