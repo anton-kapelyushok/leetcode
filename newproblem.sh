@@ -1,6 +1,7 @@
 #/bin/bash
 
-pkg=$(echo $1 | tr '[:upper:]' '[:lower:]' | sed -e 's/ //')
+name=$(echo $1 | sed -e 's/ //g')
+pkg=$(echo $1 | tr '[:upper:]' '[:lower:]' | sed 's/ //g')
 mkdir "src/$pkg"
 echo "package $pkg;
 
@@ -20,5 +21,6 @@ class SolutionTest {
         assertEquals(0, s.solve())
     }
 
-}" > "src/$pkg/$1.kt"
-idea "src/$pkg/$1.kt"
+}" > "src/$pkg/$name.kt"
+git add "src/$pkg/$name.kt"
+idea "src/$pkg/$name.kt"
