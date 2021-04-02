@@ -14,7 +14,11 @@ class Solution {
         for (i in s.length downTo 0) {
             for (j in tokens.size downTo 0) {
                 if (i == s.length) {
-                    dp[i][j] = (j until tokens.size).all { tokens[it].m }
+                    if (j == tokens.size) {
+                        dp[i][j] = true
+                    } else {
+                        dp[i][j] = tokens[j].m && dp[i][j+1]
+                    }
                 } else if (j == tokens.size) {
                     dp[i][j] = false
                 } else {
