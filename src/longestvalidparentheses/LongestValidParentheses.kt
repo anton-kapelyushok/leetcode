@@ -1,6 +1,7 @@
 package longestvalidparentheses
 
 import org.junit.jupiter.api.Test
+import java.util.*
 import kotlin.test.assertEquals
 
 class Solution {
@@ -51,6 +52,26 @@ class MonthlyChallengeSolution {
                         }
                     }
                 }
+            }
+        }
+
+        return max
+    }
+}
+
+class StackSolution {
+    fun longestValidParentheses(s: String): Int {
+        val stack = LinkedList<Int>()
+        var max = 0
+
+        stack.addLast(-1) // last unmatched index
+        for (i in s.indices) {
+            if (s[i] == '(' || stack.peekFirst() < 0 || s[stack.peekFirst()] == ')') {
+                stack.push(i)
+            } else {
+                stack.pop() // matched one brace
+                val lastUnmatchedIndex = stack.peekFirst()
+                max = Math.max(i - lastUnmatchedIndex, max)
             }
         }
 
