@@ -1,7 +1,7 @@
 package longestvalidparentheses
 
-import kotlin.test.assertEquals
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 
 class Solution {
     fun longestValidParentheses(s: String): Int {
@@ -25,6 +25,36 @@ class Solution {
         }
 
         return dp.max() ?: 0
+    }
+}
+
+class MonthlyChallengeSolution {
+    fun longestValidParentheses(s: String): Int {
+        val dp = IntArray(s.length + 1)
+
+        var max = 0
+        for (i in s.length downTo 0) {
+            if (i == s.length) continue
+            if (s[i] == '(') {
+                if (i + 1 in s.indices) {
+                    if (s[i + 1] == ')') {
+                        dp[i] = dp[i + 2] + 2
+                        if (dp[i] > max) max = dp[i]
+                    } else {
+                        if (dp[i + 1] != 0) {
+                            if (i + 1 + dp[i + 1] in s.indices) {
+                                if (s[i + 1 + dp[i + 1]] == ')') {
+                                    dp[i] = dp[i + 1] + 2 + dp[i + 1 + dp[i + 1] + 1]
+                                    if (dp[i] > max) max = dp[i]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return max
     }
 }
 
