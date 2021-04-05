@@ -7,23 +7,19 @@ class Solution {
     fun characterReplacement(s: String, k: Int): Int {
         var max = 0
         ('A'..'Z').forEach { c ->
-            var i = 0
             var l = 0 // inclusive
             var r = 0 // exclusive
             var currentK = k
-            var currentSize = 0
             while (l in s.indices) {
-                while (r in s.indices && (s[r] == c || currentK > 0)) {
-                    currentSize += 1
+                if (r in s.indices && (s[r] == c || currentK > 0)) {
                     if (s[r] != c) currentK -= 1
                     r++
+                } else {
+                    if (r - l > max) max = r - l
+
+                    if (s[l] != c) currentK += 1
+                    l++
                 }
-
-                if (currentSize > max) max = currentSize
-
-                if (s[l] != c) currentK += 1
-                currentSize -= 1
-                l++
             }
         }
 
