@@ -1,8 +1,5 @@
 package subsets2;
 
-import kotlin.test.assertEquals
-import org.junit.jupiter.api.Test
-
 class Solution {
     fun subsetsWithDup(nums: IntArray): List<List<Int>> {
         val counts = IntArray(21)
