@@ -8,7 +8,7 @@ class Solution {
     fun suggestedProducts(products: Array<String>, searchWord: String): List<List<String>> {
         Arrays.sort(products)
 
-        return (0 until searchWord.length).map { start ->
+        return (searchWord.indices).map { start ->
             val prefix = searchWord.substring(0..start)
 
             var l = 0
