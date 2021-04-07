@@ -6,99 +6,53 @@ import kotlin.test.assertEquals
 class Solution {
 
     fun removeInvalidParentheses(s: String): List<String> {
+        val sb = StringBuilder()
 
-        val indicesToRemove = calculateIndices(s)
-
-        val parts = indicesToRemove.map { (c, start, end, count) ->
-            generate(s.substring(start until end), c, count)
-        }
-
-        return compose(0, parts)
+        val result = mutableListOf<String>()
+        backTrack(result, s, sb, 0, 0, 0, 0)
+        return result.toSet().toList()
     }
 
+    fun backTrack(result: MutableList<String>, s: String, sb: StringBuilder, start: Int, openCount: Int, closeCount: Int, removed: Int) {
+        val currentRemoved = if (result.isEmpty()) Int.MAX_VALUE else s.length - result[result.size - 1].length
 
-    fun calculateIndices(s: String): List<ToRemove> {
-        val indicesToRemove = mutableListOf<ToRemove>()
-        var openCount = 0
-        var i = 0
-        var lastUnmatched = 0
-        while (i < s.length) {
-            if (s[i] == ')') openCount--
-            else if (s[i] == '(') openCount++
+        if (removed > currentRemoved) return
 
-            if (openCount < 0) {
-                i++
-                while (i < s.length && s[i] != '(') {
-                    if (s[i] == ')') {
-                        openCount--
-                    }
-                    i++
+        if (start == s.length) {
+            if (openCount == closeCount) {
+                if (removed < currentRemoved) {
+                    result.clear()
+                }
+                result.add(sb.toString())
+            }
+            return
+        }
+
+        when {
+            s[start] == '(' -> {
+                sb.append(s[start])
+                backTrack(result, s, sb, start + 1, openCount + 1, closeCount, removed)
+                sb.deleteCharAt(sb.length - 1)
+
+                backTrack(result, s, sb, start + 1, openCount, closeCount, removed + 1)
+            }
+            s[start] == ')' -> {
+                if (openCount > closeCount) {
+                    sb.append(s[start])
+                    backTrack(result, s, sb, start + 1, openCount, closeCount + 1, removed)
+                    sb.deleteCharAt(sb.length - 1)
                 }
 
-                indicesToRemove.add(ToRemove(')', lastUnmatched, i, -openCount))
-                openCount = 0
-                lastUnmatched = i
-            } else {
-                i++
+                backTrack(result, s, sb, start + 1, openCount, closeCount, removed + 1)
+            }
+            else -> {
+                sb.append(s[start])
+                backTrack(result, s, sb, start + 1, openCount, closeCount, removed)
+                sb.deleteCharAt(sb.length - 1)
             }
         }
 
-        if (openCount == 0) {
-            indicesToRemove.add(ToRemove('(', lastUnmatched, s.length, 0))
-        } else { // open brackets left, need to delete openCount ( brackets somehow
-            val newS = s.substring(lastUnmatched until s.length)
-                    .replace('(', '_')
-                    .replace(')', '(')
-                    .replace('_', ')')
-                    .reversed()
-            val nextIndices = calculateIndices(newS)
-            indicesToRemove.addAll(
-                    nextIndices.map { r ->
-                        ToRemove(
-                                c = if (r.c == '(') ')' else '(',
-                                startInclusive = newS.length - r.endExclusive + lastUnmatched,
-                                endExclusive = newS.length - r.startInclusive + lastUnmatched,
-                                count = r.count)
-                    }.reversed()
-            )
-        }
-
-        return indicesToRemove
     }
-
-    fun generate(s: String, c: Char, count: Int): Set<String> {
-        val cache = mutableMapOf<String, MutableMap<Int, Set<String>>>()
-        return generate(s, c, count, cache)
-    }
-
-    fun generate(s: String, c: Char, count: Int, cache: MutableMap<String, MutableMap<Int, Set<String>>>): Set<String> {
-        val cacheS = cache[s] ?: mutableMapOf()
-        if (cacheS[count] != null) return cacheS[count]!!
-        val result =
-                if (count == 0) return setOf(s)
-                else s.indices.filter { s[it] == c }
-                        .map { s.substring(0 until it) + s.substring(it + 1 until s.length) }
-                        .flatMap { generate(it, c, count - 1) }
-                        .toSet()
-        cacheS[count] = result
-        cache[s] = cacheS
-        return result
-    }
-
-    fun compose(start: Int, parts: List<Set<String>>): List<String> {
-        if (start == parts.size) return listOf()
-        else if (start == parts.size - 1) return parts.last().toList()
-        else return parts[start].flatMap { l ->
-            compose(start + 1, parts).map { r -> l + r }
-        }
-    }
-
-    data class ToRemove(
-            val c: Char,
-            val startInclusive: Int,
-            val endExclusive: Int,
-            val count: Int
-    )
 }
 
 class SolutionTest {
@@ -147,12 +101,7 @@ class SolutionTest {
 
     @Test
     fun test9() {
-        assertEquals(setOf("()()","(())"), s.removeInvalidParentheses("(((()(()").toSet())
-    }
-
-    @Test
-    fun test10() {
-        assertEquals(setOf("()()","(())"), s.removeInvalidParentheses("(())))))").toSet())
+        assertEquals(setOf("()()", "(())"), s.removeInvalidParentheses("(((()(()").toSet())
     }
 
 }
