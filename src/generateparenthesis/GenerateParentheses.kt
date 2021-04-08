@@ -34,6 +34,34 @@ class Solution {
     }
 }
 
+class BtSolution {
+    fun generateParenthesis(n: Int): List<String> {
+        val result = mutableListOf<String>()
+
+        backtrack(n * 2, result, StringBuilder(), 0, 0)
+
+        return result
+    }
+
+    fun backtrack(n: Int, result: MutableList<String>, acc: StringBuilder, opened: Int, closed: Int) {
+        if (n == 0) {
+            if (opened == closed) result.add(acc.toString())
+            return
+        }
+
+        if (opened > closed) {
+            acc.append(')')
+            backtrack(n-1, result, acc, opened, closed + 1)
+            acc.deleteCharAt(acc.length - 1)
+        }
+
+
+        acc.append('(')
+        backtrack(n-1, result, acc, opened + 1, closed)
+        acc.deleteCharAt(acc.length - 1)
+    }
+}
+
 class SolutionTest {
 
     private var solution = Solution()
