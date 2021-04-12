@@ -3,7 +3,7 @@
 name=$(echo $1 | sed -e 's/ //g')
 pkg=$(echo $1 | tr '[:upper:]' '[:lower:]' | sed 's/ //g')
 mkdir "src/$pkg"
-echo "package $pkg;
+echo "package $pkg
 
 import kotlin.test.assertEquals
 import org.junit.jupiter.api.Test
