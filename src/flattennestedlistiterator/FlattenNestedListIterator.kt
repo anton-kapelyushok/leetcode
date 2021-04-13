@@ -6,6 +6,28 @@ interface NestedInteger {
     fun getList(): List<NestedInteger>?
 }
 
+class Solution2 {
+    class NestedIterator(val nestedList: List<NestedInteger>) {
+
+        private fun fromList(l: List<NestedInteger>): Sequence<Int> =
+                sequence { l.forEach { yieldAll(fromNi(it)) } }
+
+        private fun fromNi(ni: NestedInteger): Sequence<Int> =
+                sequence {
+                    if (ni.isInteger()) {
+                        yield(ni.getInteger()!!)
+                    } else {
+                        yieldAll(fromList(ni.getList()!!))
+                    }
+                }
+
+        val iterator: Iterator<Int> = fromList(nestedList).iterator()
+
+        fun hasNext(): Boolean = iterator.hasNext()
+        fun next(): Int = iterator.next()
+    }
+}
+
 class Solution {
     class NestedIterator(val nestedList: List<NestedInteger>) {
         var nestedIntegers = mutableListOf<List<NestedInteger>>()
