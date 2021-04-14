@@ -1,8 +1,5 @@
 package bulbswitcher4
 
-import kotlin.test.assertEquals
-import org.junit.jupiter.api.Test
-
 class Solution {
     fun minFlips(target: String): Int {
         var inversed = false
