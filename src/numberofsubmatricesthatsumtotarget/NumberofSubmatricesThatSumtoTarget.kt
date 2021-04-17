@@ -27,13 +27,15 @@ class Solution {
         }
 
         var result = 0
+
         for (i in 0 until m) {
-            for (j in 0 until n) {
-                for (xl in 1..m - i) {
-                    for (yl in 1..n - j) {
-                        val r = m(i, j) - m(i + xl, j) - m(i, j + yl) + m(i + xl, j + yl)
-                        if (r == target) result++
-                    }
+            for (ii in i + 1..m) {
+                val map = mutableMapOf<Int, Int>()
+                for (j in n - 1 downTo 0) {
+                    val r = m(i, j) - m(ii, j)
+                    if (r == target) result++
+                    result += (map[r - target] ?: 0)
+                    map[r] = (map[r] ?: 0) + 1
                 }
             }
         }
@@ -48,11 +50,24 @@ class SolutionTest {
 
     @Test
     fun test1() {
-        // [[0,1,0],[1,1,1],[0,1,0]]
         assertEquals(4, s.numSubmatrixSumTarget(arrayOf(
                 intArrayOf(0, 1, 0),
                 intArrayOf(1, 1, 1),
                 intArrayOf(0, 1, 0)), 0))
+    }
+
+    @Test
+    fun test2() {
+        assertEquals(4, s.numSubmatrixSumTarget(arrayOf(
+                intArrayOf(1, -1),
+                intArrayOf(-1, 1)), 5))
+    }
+
+    @Test
+    fun test3() {
+        assertEquals(4, s.numSubmatrixSumTarget(arrayOf(
+                intArrayOf(1, 1),
+                intArrayOf(2, 1)), 3))
     }
 
 }
