@@ -5,6 +5,25 @@ import org.junit.jupiter.api.Test
 import utils.ListNode
 import utils.nodeListOf
 
+class OnePassSolution {
+    fun removeNthFromEnd(head: ListNode?, n: Int): ListNode? {
+        val h = ListNode(0)
+        h.next = head
+
+        var t = h
+        for (i in 1..n) t = t.next!!
+
+        var c = h
+        while (t.next != null) {
+            c = c.next!!
+            t = t.next!!
+        }
+        c.next = c.next!!.next
+
+        return h.next
+    }
+}
+
 class Solution {
     fun removeNthFromEnd(head: ListNode?, n: Int): ListNode? {
         var size = 0
