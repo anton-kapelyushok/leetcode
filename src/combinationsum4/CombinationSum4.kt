@@ -7,22 +7,55 @@ import kotlin.test.assertEquals
 class Solution {
     fun combinationSum4(nums: IntArray, target: Int): Int {
 
-        val dp = Array(1001) { IntArray(201) }
-
         fun f(n: Int, k: Int): Int {
-            if (k == 1) return 1
-            if (n == 1) return k
-            if (dp[n][k] != 0) return dp[n][k]
-            dp[n][k] = (0..n).map { i -> f(n - i, k - 1) }.sum()
-            return dp[n][k]
+            fun fac(n: Int): Int {
+                var r = 1
+                for (i in 1..n) r *= i
+                return r
+            }
+
+            fun c(n: Int, _k: Int): Int {
+                var k = _k
+                var res = 1
+
+                // Since C(n, k) = C(n, n-k)
+
+                // Since C(n, k) = C(n, n-k)
+                if (k > n - k) k = n - k
+
+                // Calculate value of
+                // [n * (n-1) *---* (n-k+1)] / [k * (k-1) *----* 1]
+
+                // Calculate value of
+                // [n * (n-1) *---* (n-k+1)] / [k * (k-1) *----* 1]
+                for (i in 0 until k) {
+                    res *= n - i
+                    res /= i + 1
+                }
+
+                return res
+            }
+
+            return c(n + k - 1, k - 1)
         }
 
-        val dp2 = Array(nums.size + 1) { Array(1000) { null as Boolean? } }
+//        val dp = Array(1001) { IntArray(201) }
+//
+//        fun f(n: Int, k: Int): Int {
+//            if (k == 1) return 1
+//            if (n == 1) return k
+//            if (dp[n][k] != 0) return dp[n][k]
+//            dp[n][k] = (0..n).map { i -> f(n - i, k - 1) }.sum()
+//            return dp[n][k]
+//        }
+
+
+        val dp2 = mutableMapOf<Int, Int>()
 
         var result = 0
         fun bt(nums: IntArray, start: Int, target: Int, path: MutableList<Int>): Boolean {
 
-            if (dp2[start][target] == false) return false
+            if (dp2[target] ?: Int.MAX_VALUE <= start) return false
 
             if (target == 0) {
                 var r = 1
@@ -33,16 +66,13 @@ class Solution {
                     c += p
                 }
                 result += r
-                dp2[start][target] = true
                 return true
             }
             if (target < 0) {
-                dp2[start][target] = false
                 return false
             }
 
             if (start == nums.size) {
-                dp2[start][target] = false
                 return false
             }
 
@@ -56,7 +86,7 @@ class Solution {
                 i++
             }
 
-            dp2[start][target] = rr
+            if (!rr) dp2[target] = start
             return rr
         }
 
@@ -86,4 +116,8 @@ class SolutionTest {
         assertEquals(1, s.combinationSum4(intArrayOf(10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250, 260, 270, 280, 290, 300, 310, 320, 330, 340, 350, 360, 370, 380, 390, 400, 410, 420, 430, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530, 540, 550, 560, 570, 580, 590, 600, 610, 620, 630, 640, 650, 660, 670, 680, 690, 700, 710, 720, 730, 740, 750, 760, 770, 780, 790, 800, 810, 820, 830, 840, 850, 860, 870, 880, 890, 900, 910, 920, 930, 940, 950, 960, 970, 980, 990, 111), 999))
     }
 
+    @Test
+    fun test4() {
+        assertEquals(982, s.combinationSum4(intArrayOf(5, 1, 8), 24))
+    }
 }
