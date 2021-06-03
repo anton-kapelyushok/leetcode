@@ -100,11 +100,6 @@ class SolutionTest {
     }
 
     @Test
-    fun test3() {
-        assertEquals("efgabca", s.shortestSuperstring(arrayOf("alex", "loves", "leetcode")))
-    }
-
-    @Test
     fun test4() {
         val start = System.currentTimeMillis()
         assertEquals("hvhhihwdffmxnczmysoeeyugbiylsomoktkyfgljcfbkqcppgortnmsyjtvkrornzynedhoiunkponbfzpppvhbjydtx", s.shortestSuperstring(arrayOf("ppgortnmsy", "czmysoeeyugbiylso", "nbfzpppvhbjydtx", "rnzynedhoiunkpon", "ornzynedhoiunkpo", "ylsomoktkyfgljcf", "jtvkrornzynedhoiunk", "hvhhihwdffmxnczmyso", "ktkyfgljcfbkqcpp", "nzynedhoiunkponbfz", "nedhoiunkponbfzpppvh")))

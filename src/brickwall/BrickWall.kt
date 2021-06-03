@@ -33,12 +33,4 @@ class SolutionTest {
         )))
     }
 
-    @Test
-    fun test2() {
-        assertEquals(2, s.leastBricks(listOf(
-                listOf(1),
-                listOf(1), listOf(1)
-        )))
-    }
-
 }

@@ -56,18 +56,4 @@ class SolutionTest {
                 intArrayOf(0, 1, 0)), 0))
     }
 
-    @Test
-    fun test2() {
-        assertEquals(4, s.numSubmatrixSumTarget(arrayOf(
-                intArrayOf(1, -1),
-                intArrayOf(-1, 1)), 5))
-    }
-
-    @Test
-    fun test3() {
-        assertEquals(4, s.numSubmatrixSumTarget(arrayOf(
-                intArrayOf(1, 1),
-                intArrayOf(2, 1)), 3))
-    }
-
 }
