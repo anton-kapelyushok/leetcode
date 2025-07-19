@@ -1,14 +1,5 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.10'
-    }
-}
-
 plugins {
-    id "org.jetbrains.kotlin.jvm" version "1.4.10"
+    id 'org.jetbrains.kotlin.jvm' version '1.9.23' // Use latest stable Kotlin version
 }
 
 repositories {
@@ -16,18 +7,26 @@ repositories {
 }
 
 sourceSets {
-    main.kotlin.srcDirs += 'src'
-    test.kotlin.srcDirs += 'src'
+    main {
+        kotlin {
+            srcDirs = ['src']
+        }
+    }
+    test {
+        kotlin {
+            srcDirs = ['src']
+        }
+    }
 }
 
 dependencies {
-    implementation('org.junit.jupiter:junit-jupiter-api:5.3.1')
-    implementation('org.jetbrains.kotlin:kotlin-test-junit5:1.4.10')
-    runtime('org.junit.jupiter:junit-jupiter-engine:5.3.1')
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib'
+
+    implementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
+    implementation 'org.jetbrains.kotlin:kotlin-test-junit5:1.9.23'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.2'
 }
 
 test {
     useJUnitPlatform()
 }
-
-
