@@ -54,7 +54,7 @@ class DpSolution {
                     if (newTime <= deadline) a = newTime
                 }
                 val b = prevDay[coursesTaken]
-                newDay[coursesTaken] = listOf(a, b).filter { it != 0 }.min() ?: 0
+                newDay[coursesTaken] = listOf(a, b).filter { it != 0 }.minOrNull() ?: 0
             }
 
             prevDay = newDay

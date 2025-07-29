@@ -16,7 +16,7 @@ class Solution {
                 val leftTop = if (i - 1 in word1.indices && j - 1 in word2.indices)
                     dp[i - 1][j - 1] + (if (word1[i] == word2[j]) 0 else 1) else -1
 
-                val res = listOf(top, left, leftTop).filter { it != -1 }.min() ?: 0
+                val res = listOf(top, left, leftTop).filter { it != -1 }.minOrNull() ?: 0
 
                 dp[i][j] = res
             }
@@ -33,7 +33,7 @@ class SolutionTest {
 
     @Test
     fun test1() {
-        assertEquals(0, s.minDistance(
+        assertEquals(10, s.minDistance(
                 "zoologicoarchaeologist",
                 "zoogeologist"
 

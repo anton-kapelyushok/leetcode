@@ -5,9 +5,7 @@ object OrderlyQueue {
     class Solution {
         fun orderlyQueue(s: String, k: Int): String {
             if (k >= 2) return String(s.toCharArray().sortedArray())
-            return s.indices
-                .map { idx -> s.slice(idx until s.length) + s.slice(0 until idx) }
-                .min()!!
+            return s.indices.minOfOrNull { idx -> s.slice(idx until s.length) + s.slice(0 until idx) }!!
         }
     }
 

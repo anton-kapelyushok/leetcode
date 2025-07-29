@@ -59,7 +59,7 @@ class Solution {
             maxProfit
         }
 
-        return intArrayOf(leftCase, rightCase, insideCase).max()!!
+        return intArrayOf(leftCase, rightCase, insideCase).maxOrNull()!!
     }
 
 

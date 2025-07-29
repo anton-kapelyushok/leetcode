@@ -24,8 +24,8 @@ class Solution {
         var tailCur: ListNode? = reversedTailHead
         while (countDown > 0) {
             if (cur!!.`val` != tailCur!!.`val`) return false
-            tailCur = tailCur!!.next
-            cur = cur!!.next
+            tailCur = tailCur.next
+            cur = cur.next
             countDown--
         }
         return true

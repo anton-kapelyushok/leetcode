@@ -7,6 +7,6 @@ class Solution {
             val prev = map[el - difference] ?: 0
             map[el] = prev + 1
         }
-        return map.values.max()!!
+        return map.values.max()
     }
 }

@@ -5,7 +5,7 @@ import kotlin.test.assertEquals
 
 class Solution {
     fun firstMissingPositive(nums: IntArray): Int {
-        val min = nums.asSequence().filter { it > 0 }.min() ?: return 1
+        val min = nums.asSequence().filter { it > 0 }.minOrNull() ?: return 1
         if (min != 1) return 1
 
         for (i in nums.indices) {

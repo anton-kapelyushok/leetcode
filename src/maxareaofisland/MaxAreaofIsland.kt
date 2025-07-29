@@ -33,7 +33,7 @@ class Solution {
             if (y + 1 in grid[0].indices) q.push(QEntry(x, y + 1, _n))
         }
 
-        return sizes.values.max() ?: 0
+        return sizes.values.maxOrNull() ?: 0
     }
 
     data class QEntry(

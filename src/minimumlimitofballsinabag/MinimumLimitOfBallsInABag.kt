@@ -33,7 +33,7 @@ import kotlin.test.assertEquals
 
 class Solution {
     fun minimumSize(nums: IntArray, maxOperations: Int): Int {
-        val max = nums.max()!!
+        val max = nums.max()
         var l = 1
         var r = max
         while (l < r) {

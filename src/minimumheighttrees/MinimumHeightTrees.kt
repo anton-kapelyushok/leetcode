@@ -57,7 +57,7 @@ class DfsSolution {
         }
 
 
-        val min = result.min()!!
+        val min = result.min()
 
         return result.indices.filter { result[it] == min }
 

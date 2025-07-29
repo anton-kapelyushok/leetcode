@@ -13,7 +13,7 @@ class Solution {
                 holes[left] = (holes[left] ?: 0) + 1
             }
         }
-        return wall.size - (holes.values.max() ?: 0)
+        return wall.size - (holes.values.maxOrNull() ?: 0)
     }
 }
 

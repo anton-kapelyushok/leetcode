@@ -28,7 +28,7 @@ class Solution {
             e[i] = e[i] + e[i - 1]
         }
 
-        return e.min()!!
+        return e.min()
     }
 }
 

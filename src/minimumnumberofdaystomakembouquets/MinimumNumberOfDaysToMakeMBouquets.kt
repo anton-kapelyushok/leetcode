@@ -6,7 +6,7 @@ import kotlin.test.assertEquals
 
 class Solution {
     fun minDays(roses: IntArray, n: Int, k: Int): Int {
-        var r = roses.max()!!
+        var r = roses.max()
         var l = 0
 
         while (l < r) {
@@ -45,11 +45,11 @@ class DpSolution {
     fun minDays(roses: IntArray, n: Int, k: Int): Int {
         val windowedRoses = roses.toList()
                 .windowed(k, 1)
-                .map { it.max()!! }
+                .map { it.max() }
                 .toIntArray()
 
         val dp = Array(n + 1) { IntArray(windowedRoses.size) }
-        val res = (windowedRoses.indices).map { calc(it, windowedRoses, k, n, dp) }.min()!!
+        val res = (windowedRoses.indices).minOfOrNull { calc(it, windowedRoses, k, n, dp) }!!
 
         return if (res == Int.MAX_VALUE) -1 else res
     }

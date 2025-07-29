@@ -117,7 +117,7 @@ object CountOfRangeSum {
                 error("oob $idx")
             }
 
-            val tree = newNode(minOf(rpsum.min()!!, 0), maxOf(0, rpsum.max()!!))
+            val tree = newNode(minOf(rpsum.min(), 0), maxOf(0, rpsum.max()))
             for (idx in 0..rpsum.size) {
                 addNode(tree, idx, rpsum(idx))
             }
@@ -152,7 +152,6 @@ object CountOfRangeSum {
             println(countRangeSum(intArrayOf(-2, 5, -20), -5, 5))
             println(countRangeSum(intArrayOf(-2, 5, -1), -2, 2))
             println(countRangeSum(intArrayOf(1), 0, 0))
-            val now = System.currentTimeMillis()
             println(measureTimeMillis {
                 println(countRangeSum((0..1_00_000).map { Random.nextInt() }.toIntArray(), -5000, 5000))
             })

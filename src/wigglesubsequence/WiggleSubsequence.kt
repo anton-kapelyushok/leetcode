@@ -60,7 +60,7 @@ class DpSolution1 {
             }
         }
 
-        return (upDp + downDp).max()!!
+        return (upDp + downDp).max()
     }
 }
 
@@ -82,7 +82,7 @@ class DpSolution2 {
             }
         }
 
-        return (upDp + downDp).max()!!
+        return (upDp + downDp).max()
     }
 }
 

@@ -25,7 +25,7 @@ class Solution {
             }
         }
 
-        return dp.max() ?: 0
+        return dp.maxOrNull() ?: 0
     }
 }
 

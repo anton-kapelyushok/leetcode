@@ -53,8 +53,8 @@ class Solution {
             }
 
             val result = bt(0, k)!!.let { FR(it.f + it.r, it.r) }
-            cache[arr] = result!!
-            return result!!
+            cache[arr] = result
+            return result
         }
 
         val r = f(stones.toList())
