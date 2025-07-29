@@ -1,0 +1,36 @@
+name: gradle build
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    name: Gradle Full Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: 'zulu'
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+      - name: Build with Gradle
+        run: ./gradlew build
+      - name: Upload Test Report HTML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report
+          path: app/build/reports/tests/test
+      - name: Publish Test Report to PR
+        if: always()
+        uses: ScaCap/action-surefire-report@v1
+        with:
+          check_name: 'Gradle Test Report'
+          report_paths: 'app/build/test-results/test/TEST-*.xml'
+
