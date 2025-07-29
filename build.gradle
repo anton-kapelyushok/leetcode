@@ -7,11 +7,6 @@ repositories {
 }
 
 sourceSets {
-    main {
-        kotlin {
-            srcDirs = ['src']
-        }
-    }
     test {
         kotlin {
             srcDirs = ['src']
