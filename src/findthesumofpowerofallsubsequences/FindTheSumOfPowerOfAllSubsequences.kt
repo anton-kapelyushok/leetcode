@@ -26,7 +26,7 @@ class Solution {
             val r = R()
             for (i in 0..100) {
                 r.n[i] = n[i] + o.n[i]
-                r.n[i] %= m
+                r.n[i] = r.n[i] % m
             }
             return r
         }
