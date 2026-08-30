@@ -1,73 +1,63 @@
-package problems
+package longestpalindromebyconcatenatingtwoletterwords
 
-object LongestPalindromeByConcatenatingTwoLetterWords {
-    class Solution {
-        fun longestPalindrome(words: Array<String>): Int {
-            var pairs = 0
-            var hasSpareDouble = false
+import org.junit.jupiter.api.Test
 
-            val m = words.groupingBy { it }.eachCount()
-            for ((w, wCount) in m) {
-                when {
-                    w[0] < w[1] -> {
-                        val r = w.reversed()
-                        val rCount = m[r] ?: 0
-                        pairs += minOf(rCount, wCount)
-                    }
+class Solution {
+    fun longestPalindrome(words: Array<String>): Int {
+        val map = words.groupBy { it }.mapValues { (k, vs) -> vs.size }.toMutableMap()
 
-                    w[0] == w[1] -> {
-                        if (wCount > 0) pairs += wCount / 2
-                        if (wCount % 2 == 1) hasSpareDouble = true
-                    }
-                }
+        var length = 0
+        // group pairs
+        for (w in map.keys) {
+            val wv = map[w] ?: 0
+            if (wv == 0) {
+                continue
+            }
+            if (w[0] == w[1]) {
+                continue
+            }
+            val r = w.reversed()
+            val rv = map[r] ?: 0
+            if (rv == 0) {
+                continue
+            }
+            val matchedCount = minOf(wv, rv)
+            length += matchedCount * 4
+            map[w] = wv - matchedCount
+            map[r] = rv - matchedCount
+        }
+
+        var countedMiddle = false
+
+        for (w in map.keys) {
+            if (w[0] != w[1]) {
+                continue
+            }
+            var v = map[w] ?: 0
+            if (v == 0) {
+                continue
             }
 
-            return pairs * 4 + (if (hasSpareDouble) 2 else 0)
+            val matchedCount = v / 2
+            length += matchedCount * 4
+            v = v - (v / 2) * 2
+
+            if (!countedMiddle && v== 1) {
+                countedMiddle = true
+                length += 2
+            }
         }
+
+        return length
+    }
+}
+
+class SolutionTest {
+
+    private val s = Solution()
+
+    @Test
+    fun test1() {
     }
 
-    @JvmStatic
-    fun main(args: Array<String>) {
-        with(Solution()) {
-            println(longestPalindrome(arrayOf("lc", "cl", "gg")))
-            println(longestPalindrome(arrayOf("ab", "ty", "yt", "lc", "cl", "ab")))
-            println(longestPalindrome(arrayOf("cc", "ll", "xx")))
-            println(
-                longestPalindrome(
-                    arrayOf(
-                        "aa",
-                        "aa",
-                        "aa",
-                        "bb",
-                        "bb",
-                        "bb",
-                        "cc",
-                        "cc",
-                        "cc",
-                        "dd",
-                        "dd",
-                        "dd",
-                        "dd",
-                        "dd",
-                    )
-                )
-            )
-            println(
-                longestPalindrome(
-                    arrayOf(
-                        "aa",
-                        "aa",
-                        "bb",
-                        "bb",
-                        "cc",
-                        "cc",
-                        "dd",
-                        "dd",
-                        "dd",
-                        "dd",
-                    )
-                )
-            )
-        }
-    }
 }
