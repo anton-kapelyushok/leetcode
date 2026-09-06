@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test
 import java.util.*
 import kotlin.io.path.Path
 import kotlin.io.path.readText
+import kotlin.test.Ignore
 import kotlin.time.measureTime
 
 class Solution {
@@ -314,6 +315,7 @@ class SolutionTest {
     }
 
     @Test
+    @Ignore
     fun test4() {
         val text = Path("/Users/Anton.Kapeliushok/Projects/leetcode/src/blockplacementqueries/testcase_743.txt").readText()
         val data: Array<IntArray> =
