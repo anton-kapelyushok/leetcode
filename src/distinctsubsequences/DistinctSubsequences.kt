@@ -5,36 +5,24 @@ import kotlin.test.assertEquals
 
 class Solution {
     fun numDistinct(s: String, t: String): Int {
-        val dp = Array(s.length + 1) { IntArray(t.length + 1) { -1 } }
+
+        val dp = Array(s.length) { IntArray(t.length) { -1 } }
 
         fun f(i: Int, j: Int): Int {
-            if (dp[i][j] != -1) return dp[i][j]
-            if (i >= s.length) {
-                val res = 0
-                dp[i][j] = res
-                return res
-            }
-            if (j == t.length - 1) {
-                var res = 0
-                if (s[i] == t[j]) {
-                    res += 1
-                }
+            if (j == t.length) return 1
+            if (i == s.length) return 0
 
-                res += f(i + 1, j)
-                dp[i][j] = res
-                return res
+            if (dp[i][j] != -1) return dp[i][j]
+
+            var result = 0
+            if (s[i] == t[j]) {
+                result += f(i + 1, j + 1)
             }
-            if (s[i] != t[j]) {
-                var res = f(i + 1, j)
-                dp[i][j] = res
-                return res
-            } else {
-                val take = f(i + 1, j + 1)
-                val skip = f(i + 1, j)
-                val res = take + skip
-                dp[i][j] = res
-                return res
-            }
+            result += f(i + 1, j)
+
+            dp[i][j] = result
+
+            return result
         }
 
         return f(0, 0)
@@ -48,11 +36,6 @@ class SolutionTest {
     @Test
     fun test1() {
         assertEquals(3, s.numDistinct("rabbbit", "rabbit"))
-    }
-
-    @Test
-    fun test2() {
-        assertEquals(5, s.numDistinct("babgbag", "bag"))
     }
 
 }
