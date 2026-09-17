@@ -1,9 +1,16 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-name=$(echo $1 | sed -e 's/ //g')
-pkg=$(echo $1 | tr '[:upper:]' '[:lower:]' | sed 's/ //g')
-mkdir "src/$pkg"
-echo "package $pkg
+title="$1"
+
+name=$(printf '%s' "$title" | sed -E 's/[[:space:]]+//g; s/-/_/g')
+[[ "$name" =~ ^[0-9] ]] && name="_$name"
+
+pkg=$(printf '%s' "$name" | tr '[:upper:]' '[:lower:]')
+
+mkdir -p "src/$pkg"
+
+cat > "src/$pkg/$name.kt" <<EOF
+package $pkg
 
 import kotlin.test.assertEquals
 import org.junit.jupiter.api.Test
@@ -20,7 +27,8 @@ class SolutionTest {
     fun test1() {
         assertEquals(0, s.solve())
     }
+}
+EOF
 
-}" > "src/$pkg/$name.kt"
 git add "src/$pkg/$name.kt"
 idea "src/$pkg/$name.kt"
