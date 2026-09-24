@@ -22,6 +22,39 @@ class Solution {
         }
     }
 
+    fun merge(k: Int, leftP: Int, leftN: IntArray, rightP: Int, rightN: IntArray): Pair<Int, IntArray> {
+        val p = (leftP * rightP) % k
+
+        val n = IntArray(k)
+        for (x in 0 until k) {
+            // n = count of arrays on the range l..r starting at l with product x
+            // all arrays from the left tree are still valid
+            n[x] += leftN[x]
+
+            // right calculations must be multiplied by product of the left array
+            n[(x * leftP) % k] += rightN[x]
+        }
+
+        return p to n
+    }
+
+    fun query(node: SNode, k: Int, start: Int): Pair<Int, IntArray> {
+        require(start <= node.r)
+        if (start <= node.l) return node.p to node.n
+        @Suppress("KotlinConstantConditions")
+        if (node.l == node.r) return node.p to node.n
+
+        requireNotNull(node.left)
+        requireNotNull(node.right)
+        if (start > node.m) {
+            return query(node.right, k, start)
+        }
+
+        val (leftP, leftN) = query(node.left, k, start)
+        val (rightP, rightN) = query(node.right, k, start)
+        return merge(k, leftP, leftN, rightP, rightN)
+    }
+
     fun constructTree(nums: IntArray, k: Int, l: Int, r: Int): SNode {
         if (l > r) {
             error("l cannot be > r")
@@ -39,17 +72,7 @@ class Solution {
         val left = constructTree(nums, k, l, m)
         val right = constructTree(nums, k, m + 1, r)
 
-        val p = (left.p * right.p) % k
-        val n = IntArray(k)
-        for (x in 0 until k) {
-            // n = count of arrays on the range l..r starting at l with product x
-            // all arrays from the left tree are still valid
-            n[x] += left.n[x]
-
-            // right calculations must be multiplied by product of the left array
-            n[(x * left.p) % k] += right.n[x]
-        }
-
+        val (p, n) = merge(k, left.p, left.n, right.p, right.n)
         return SNode(l, r, p, n, left, right)
     }
 
@@ -66,70 +89,19 @@ class Solution {
         }
         requireNotNull(node.left)
         requireNotNull(node.right)
-        val m = node.m
 
         val left = update(node.left, k, idx, value)
         val right = update(node.right, k, idx, value)
 
-        val p = (left.p * right.p) % k
-        val n = IntArray(k)
-        for (x in 0 until k) {
-            // n = count of arrays on the range l..r starting at l with product x
-            // all arrays from the left tree are still valid
-            n[x] += left.n[x]
-
-            // right calculations must be multiplied by product of the left array
-            n[(x * left.p) % k] += right.n[x]
-        }
-
+        val (p, n) = merge(k, left.p, left.n, right.p, right.n)
         return SNode(node.l, node.r, p, n, left, right)
     }
 
     // #{ arrays starting at maxOf(node.l, start) producing x }
     fun queryArrayCount(node: SNode, k: Int, start: Int, x: Int): Int {
-        // suppose we are at [abcde], left is [abc], right is [de]
-
-        // if right is to the right of us, we don't have any arrays making x
         if (node.r < start) return 0
-
-        // if start is to the left of us, the answer to this query is in this tree:
-        if (start <= node.l) return node.n[x]
-
-        // node.l < start < node.r
-        requireNotNull(node.left)
-        requireNotNull(node.right)
-
-        // if start is in the right tree, the answer is in the right tree
-        if (start > node.m) return queryArrayCount(node.right, k, start, x)
-
-        // start is in the left tree
-        var result = 0
-
-        // take all arrays from the left
-        result += queryArrayCount(node.left, k, start, x)
-
-        // find product maxOf(left, start)..right !TODO
-        val p = product(node.left, k, start)
-        for (xr in 0 until k) {
-            if ((xr * p) % k != x) continue
-            result += queryArrayCount(node.right, k, start, xr)
-        }
-
-        return result
-    }
-
-    fun product(node: SNode, k: Int, start: Int): Int {
-        require(start <= node.r)
-        if (start <= node.l) return node.p
-        @Suppress("KotlinConstantConditions")
-        if (node.l == node.r) return node.p
-
-        requireNotNull(node.left)
-        requireNotNull(node.right)
-
-        val m = node.m
-        if (start > node.m) return product(node.right, k, start)
-        return (product(node.left, k, start) * node.right.p) % k
+        val (_, n) = query(node, k, start)
+        return n[x]
     }
 
     fun resultArray(nums: IntArray, k: Int, queries: Array<IntArray>): IntArray {
