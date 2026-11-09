@@ -54,7 +54,6 @@ class Solution {
 class SolutionTest {
 
     private val s = Solution()
-    
 
     @Test
     fun test2() {
